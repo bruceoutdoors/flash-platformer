@@ -103,10 +103,9 @@
    </properties>
   </object>
   <object id="4" type="citrus.objects.platformer.box2d.Platform" x="417.25" y="336" width="382.833" height="15"/>
-  <object id="5" type="citrus.objects.platformer.box2d.Platform" x="800.25" y="320.5" width="16" height="15"/>
-  <object id="7" type="citrus.objects.platformer.box2d.Platform" x="833" y="272.5" width="16" height="20.5"/>
-  <object id="8" type="citrus.objects.platformer.box2d.Platform" x="799.5" y="322.5" width="16" height="15"/>
-  <object id="9" type="citrus.objects.platformer.box2d.Platform" x="817" y="286.75" width="16" height="38.5"/>
+  <object id="5" type="citrus.objects.platformer.box2d.Platform" x="800" y="320" width="16" height="17.3636"/>
+  <object id="7" type="citrus.objects.platformer.box2d.Platform" x="832" y="272" width="16" height="20.5"/>
+  <object id="9" type="citrus.objects.platformer.box2d.Platform" x="816" y="288" width="16" height="38.5"/>
   <object id="10" type="citrus.objects.platformer.box2d.Platform" x="849" y="256.75" width="29.5" height="110"/>
   <object id="11" type="citrus.objects.platformer.box2d.Platform" x="945.75" y="207.5" width="43.5" height="157"/>
   <object id="12" type="citrus.objects.platformer.box2d.Platform" x="990.5" y="241.25" width="16" height="20.5">
