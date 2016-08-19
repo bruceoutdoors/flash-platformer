@@ -1,18 +1,15 @@
 package 
 {
-	import Box2D.Dynamics.b2Body;
+	import TileMapReader;
 	import citrus.core.starling.StarlingState;
-	import citrus.physics.box2d.Box2D;
 	import citrus.objects.platformer.box2d.Hero;
 	import citrus.objects.platformer.box2d.Platform;
-	import flash.display.Bitmap;
-	import citrus.utils.objectmakers.ObjectMaker2D;
-	import flash.geom.Rectangle;
+	import citrus.physics.box2d.Box2D;
 	import citrus.view.starlingview.AnimationSequence;
+	import flash.display.Bitmap;
+	import flash.geom.Rectangle;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
-	import starling.textures.TextureSmoothing;
-	import starling.display.MovieClip;
 	
 	
 	/**
@@ -54,7 +51,7 @@ package
 			bmp.name = "forest.png";
 			bmp.smoothing = false;
 
-			ObjectMaker2D.FromTiledMap(XML(new _Map()), [bmp]);
+			TileMapReader.Read(XML(new _Map()), [bmp]);
 			
 			var hero:Hero = getObjectByName("hero") as Hero;
 			hero.jumpHeight = 7;
