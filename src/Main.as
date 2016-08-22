@@ -21,6 +21,7 @@ package
 			var kb:Keyboard = CitrusEngine.getInstance().input.keyboard;
 			kb.removeActionFromKey("jump", Keyboard.SPACE);
 			kb.addKeyAction("jump", Keyboard.UP);
+			kb.addKeyAction("attack", Keyboard.X);
 		}
 		
 		override public function handleStarlingReady():void

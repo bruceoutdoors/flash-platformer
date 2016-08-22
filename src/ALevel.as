@@ -2,7 +2,7 @@ package
 {
 	import TileMapReader;
 	import citrus.core.starling.StarlingState;
-	import citrus.objects.platformer.box2d.Hero;
+	import Takuto;
 	import citrus.objects.platformer.box2d.Platform;
 	import citrus.physics.box2d.Box2D;
 	import citrus.view.starlingview.AnimationSequence;
@@ -35,7 +35,7 @@ package
 			super();
 			
 			// Useful for not forgetting to import object from the Level Editor
-			var objects:Array = [Hero, Platform];
+			var objects:Array = [Takuto, Platform];
 		}
 		
 		override public function initialize():void {
@@ -53,22 +53,19 @@ package
 
 			TileMapReader.Read(XML(new _Map()), [bmp]);
 			
-			var hero:Hero = getObjectByName("hero") as Hero;
-			hero.jumpHeight = 7;
-			hero.maxVelocity = 3;
-			hero.acceleration = 0.7;
+			var hero:Takuto = getObjectByName("hero") as Takuto;
 
 			view.camera.setUp(hero, new Rectangle(0, 0, 1600, 400));
 
 			view.camera.allowZoom = true;
-			view.camera.setZoom(50);
+			view.camera.setZoom(30);
 			
 			var bitmap:Bitmap = new _heroPng();
 			var texture:Texture = Texture.fromBitmap(bitmap);
 
 			var xml:XML = XML(new _heroConfig());
 			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
-			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "duck", "idle", "jump", "hurt"], "idle", 15, false, "none");
+			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "duck", "idle", "jump", "hurt", "attack"], "idle", 15, false, "none");
 			
 			animseq.scale = 0.6;
 			animseq.pivotY  = 8;
