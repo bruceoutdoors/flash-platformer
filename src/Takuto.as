@@ -1,10 +1,14 @@
 package 
 {
-	import Box2D.Collision.Shapes.b2MassData;
-	import citrus.objects.platformer.box2d.Hero;
+	import Takuto;
 	import Box2D.Common.Math.b2Vec2;
+	import citrus.objects.platformer.box2d.Hero;
+	import citrus.view.starlingview.AnimationSequence;
+	import flash.display.Bitmap;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
+	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
 	
 	/**
 	 * ...
@@ -16,6 +20,12 @@ package
 		private var _attackTimeoutID:uint;
 		public var attackDuration:Number = 300;
 		
+		[Embed(source="/../assets/takuto-spritesheet.xml", mimeType="application/octet-stream")]
+		private var _heroConfig:Class;
+		
+		[Embed(source="/../assets/takuto-spritesheet.png")]
+		private var _heroPng:Class;
+		
 		public function Takuto(name:String, params:Object=null) 
 		{
 			super(name, params);
@@ -23,6 +33,17 @@ package
 			maxVelocity = 1.5;
 			acceleration = 0.7;
 			
+			var bitmap:Bitmap = new _heroPng();
+			var texture:Texture = Texture.fromBitmap(bitmap);
+
+			var xml:XML = XML(new _heroConfig());
+			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
+			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "duck", "idle", "jump", "hurt", "attack"], "idle", 15, false, "none");
+			
+			animseq.scale = 0.6;
+			animseq.pivotY  = 8;
+			
+			view = animseq;
 		}
 		
 		override public function update(timeDelta:Number):void
@@ -45,13 +66,18 @@ package
 				
 				_ducking = (_ce.input.isDoing("down", inputChannel) && _onGround && canDuck);
 				
-				if (_ce.input.isDoing("right", inputChannel) && !_ducking)
+				if (!_attack && _ce.input.justDid("attack", inputChannel)) {
+					_attack = true;
+					_attackTimeoutID = setTimeout(endAttackState, attackDuration);
+				}
+				
+				if (!_attack && _ce.input.isDoing("right", inputChannel) && !_ducking)
 				{
 					velocity.Add(getSlopeBasedMoveAngle());
 					moveKeyPressed = true;
 				}
 				
-				if (_ce.input.isDoing("left", inputChannel) && !_ducking)
+				if (!_attack && _ce.input.isDoing("left", inputChannel) && !_ducking)
 				{
 					velocity.Subtract(getSlopeBasedMoveAngle());
 					moveKeyPressed = true;
@@ -96,11 +122,6 @@ package
 					velocity.x = maxVelocity;
 				else if (velocity.x < (-maxVelocity))
 					velocity.x = -maxVelocity;
-			}
-			
-			if (!_attack && _ce.input.justDid("attack", inputChannel)) {
-				_attack = true;
-				_attackTimeoutID = setTimeout(endAttackState, attackDuration);
 			}
 			
 			updateAnimation();

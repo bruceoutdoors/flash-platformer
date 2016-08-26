@@ -10,7 +10,7 @@ package
 	import flash.geom.Rectangle;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
-	
+	import citrus.objects.platformer.box2d.Sensor;
 	
 	/**
 	 * ...
@@ -24,18 +24,12 @@ package
 		[Embed(source="/../assets/forest.png")]
 		private const _ImgTiles:Class;
 		
-		[Embed(source="/../assets/takuto-spritesheet.xml", mimeType="application/octet-stream")]
-		private var _heroConfig:Class;
-		
-		[Embed(source="/../assets/takuto-spritesheet.png")]
-		private var _heroPng:Class;
-		
 		public function ALevel() 
 		{
 			super();
 			
 			// Useful for not forgetting to import object from the Level Editor
-			var objects:Array = [Takuto, Platform];
+			var objects:Array = [Takuto, Platform, ZorgBaby, EnemyBound];
 		}
 		
 		override public function initialize():void {
@@ -43,7 +37,7 @@ package
 			super.initialize();
 			
 			var box2D:Box2D = new Box2D("box2D");
-			//box2D.visible = true;
+			box2D.visible = true;
 			add(box2D);
 			
 			var bmp:Bitmap = new _ImgTiles();
@@ -60,17 +54,6 @@ package
 			view.camera.allowZoom = true;
 			view.camera.setZoom(30);
 			
-			var bitmap:Bitmap = new _heroPng();
-			var texture:Texture = Texture.fromBitmap(bitmap);
-
-			var xml:XML = XML(new _heroConfig());
-			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
-			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "duck", "idle", "jump", "hurt", "attack"], "idle", 15, false, "none");
-			
-			animseq.scale = 0.6;
-			animseq.pivotY  = 8;
-			
-			hero.view = animseq;
 		}
 		
 	}

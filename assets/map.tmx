@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="25" tilewidth="16" tileheight="16" nextobjectid="35">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="100" height="25" tilewidth="16" tileheight="16" nextobjectid="69">
  <tileset firstgid="1" name="forest" tilewidth="16" tileheight="16" tilecount="136" columns="17">
   <image source="forest.png" width="272" height="128"/>
  </tileset>
@@ -177,6 +177,26 @@
    </properties>
   </object>
   <object id="29" type="citrus.objects.platformer.box2d.Platform" x="-2.75" y="25.1667" width="5.5" height="310.333"/>
-  <object id="31" type="citrus.objects.platformer.box2d.Platform" x="1597.25" y="27.5002" width="5.5" height="310.333"/>
+  <object id="31" type="citrus.objects.platformer.box2d.Platform" x="1597.25" y="3.5002" width="5.5" height="334.333"/>
+  <object id="35" name="zorg baby" type="ZorgBaby" x="322.894" y="231.758" width="15.5758" height="15.3031"/>
+  <object id="42" name="zorg baby" type="ZorgBaby" x="272.712" y="178.848" width="15.5758" height="15.3031"/>
+  <object id="46" name="zorg baby" type="ZorgBaby" x="142.712" y="307.348" width="15.5758" height="15.3031"/>
+  <object id="47" name="Enemy Bound" type="EnemyBound" x="59.25" y="221.5" width="3.5" height="115"/>
+  <object id="51" name="Enemy Bound" type="EnemyBound" x="854" y="375.75" width="115" height="4.5"/>
+  <object id="53" name="zorg baby" type="ZorgBaby" x="905.212" y="176.348" width="15.5758" height="15.3031"/>
+  <object id="54" name="zorg baby" type="ZorgBaby" x="1489.21" y="248.848" width="15.5758" height="15.3031"/>
+  <object id="56" name="zorg baby" type="ZorgBaby" x="1070.71" y="245.348" width="15.5758" height="15.3031"/>
+  <object id="57" name="zorg baby" type="ZorgBaby" x="504.212" y="288.848" width="15.5758" height="15.3031"/>
+  <object id="58" name="zorg baby" type="ZorgBaby" x="599.712" y="294.348" width="15.5758" height="15.3031"/>
+  <object id="59" name="zorg baby" type="ZorgBaby" x="718.212" y="280.348" width="15.5758" height="15.3031"/>
+  <object id="60" name="Enemy Bound" type="EnemyBound" x="1288" y="240.25" width="7.5" height="94.5"/>
+  <object id="61" name="Enemy Bound" type="EnemyBound" x="1430.25" y="215.25" width="7.5" height="120.5"/>
+  <object id="62" name="zorg baby" type="ZorgBaby" x="1527.71" y="94.3485" width="15.5758" height="15.3031"/>
+  <object id="63" name="zorg baby" type="ZorgBaby" x="1374.71" y="156.848" width="15.5758" height="15.3031"/>
+  <object id="64" name="zorg baby" type="ZorgBaby" x="1555.21" y="91.8485" width="15.5758" height="15.3031"/>
+  <object id="65" name="Enemy Bound" type="EnemyBound" x="1286.25" y="1.75" width="7.5" height="190"/>
+  <object id="66" name="Enemy Bound" type="EnemyBound" x="1453.25" y="3.5" width="7.5" height="122.5"/>
+  <object id="67" name="Enemy Bound" type="EnemyBound" x="206.75" y="113" width="7.5" height="190"/>
+  <object id="68" name="Enemy Bound" type="EnemyBound" x="449.25" y="123" width="7.5" height="211"/>
  </objectgroup>
 </map>
