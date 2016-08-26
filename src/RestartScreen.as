@@ -18,8 +18,11 @@ package
 	{
 		private var _loader:Loader;
 		private var _restartBtn:SimpleButton
-		public function RestartScreen()
+		private var _returnLvl:*;
+		
+		public function RestartScreen(returnLvl:*):void
 		{
+			_returnLvl = returnLvl;
 			super();
 		}
 		
@@ -50,7 +53,7 @@ package
 		
 		private function restartLevel(evt:MouseEvent):void
 		{
-			_ce.state = new ALevel();
+			_ce.state = new _returnLvl();
 			// when you click the focus is set to the swf file.
 			// We need to set input focus back in citrus:
 			Starling.current.nativeStage.focus = Starling.current.nativeStage;

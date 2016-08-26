@@ -3,6 +3,8 @@ package
 	import Box2D.Collision.Shapes.b2MassData;
 	import citrus.objects.platformer.box2d.Hero;
 	import Box2D.Common.Math.b2Vec2;
+	import flash.utils.clearTimeout;
+	import flash.utils.setTimeout;
 	
 	/**
 	 * ...
@@ -10,6 +12,9 @@ package
 	 */
 	public class Takuto extends Hero 
 	{
+		private var _attack:Boolean = false;
+		private var _attackTimeoutID:uint;
+		public var attackDuration:Number = 300;
 		
 		public function Takuto(name:String, params:Object=null) 
 		{
@@ -31,8 +36,7 @@ package
 			//var ant_gravity:b2Vec2 = new b2Vec2(0.0, -8.0*_body.GetMass());
 			//_body.ApplyForce(ant_gravity, _body.GetWorldCenter());
 			if (this.y > 1500) {
-				trace('you are fucked!');
-				_ce.state = new RestartScreen();
+				_ce.state = new RestartScreen(ALevel);
 			}
 			
 			if (controlsEnabled)
@@ -94,6 +98,11 @@ package
 					velocity.x = -maxVelocity;
 			}
 			
+			if (!_attack && _ce.input.justDid("attack", inputChannel)) {
+				_attack = true;
+				_attackTimeoutID = setTimeout(endAttackState, attackDuration);
+			}
+			
 			updateAnimation();
 		}
 		
@@ -133,13 +142,23 @@ package
 					_animation = "idle";
 			}
 			
-			if (_ce.input.isDoing("attack", inputChannel)) {
-				trace("attack!");
+			if (_attack == true) {
 				_animation = "attack";
 			}
 			
 			if (prevAnimation != _animation)
 				onAnimationChange.dispatch();
+		}
+		
+		private function endAttackState():void 
+		{
+			_attack = false;
+		}
+		
+		public override function destroy():void 
+		{
+			super.destroy();
+			clearTimeout(_attackTimeoutID);
 		}
 	}
 
