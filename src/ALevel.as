@@ -15,21 +15,24 @@ package
 	import flash.text.TextField;
 	import citrus.objects.CitrusSprite;
 	import starling.textures.TextureSmoothing;
-	
+	import feathers.controls.Label;
+	import feathers.controls.text.BitmapFontTextRenderer;
+	import feathers.text.BitmapFontTextFormat;
+	import feathers.core.ITextRenderer;
+	import feathers.controls.text.TextFieldTextRenderer
+	import flash.text.TextFormat;
+	import citrus.core.CitrusObject;
+		
 	/**
 	 * ...
 	 * @author Lee Zhen Yong
 	 */
 	public class ALevel extends StarlingState 
 	{
-		[Embed(source="/../assets/map.tmx", mimeType="application/octet-stream")]
-		private const _Map:Class;
-		
 		[Embed(source="/../assets/forest.png")]
-		private const _ImgTiles:Class;
+		public static const forest:Class;
 		
-		[Embed(source="/../assets/Cemetary_FBG.png")]
-		private const _ParallaxBackground:Class;
+		private var _zorgRemaining:int;
 		
 		public function ALevel() 
 		{
@@ -46,23 +49,17 @@ package
 			var box2D:Box2D = new Box2D("box2D");
 			//box2D.visible = true;
 			add(box2D);
-			
-			var bmp:Bitmap = new _ImgTiles();
-			// we must add the image name so we know which image is chosen.
-			bmp.name = "forest.png";
-			bmp.smoothing = false;
-			
-			var bg:Bitmap = new _ParallaxBackground();
-			// we must add the image name so we know which image is chosen.
-			bg.name = "Cemetary_FBG.png";
-			bg.smoothing = false;
-			var bgImg:Image = new Image(Texture.fromBitmap(bg));
+
+			var bgImg:Image = new Image(Assets.Manager.getTexture("Cemetary_FBG"));
 			bgImg.smoothing = TextureSmoothing.NONE;
 			var background:CitrusSprite = new CitrusSprite("back", {x:-30, y:0, parallaxX:0.1, parallaxY:0.1, view: bgImg });
 			add(background);
-			//addChild(bgImg);
 
-			TileMapReader.Read(XML(new _Map()), [bmp]);
+			var bmp:Bitmap = new forest();
+			//// we must add the image name so we know which image is chosen.
+			bmp.name = "forest.png";
+			bmp.smoothing = false;
+			TileMapReader.Read(Assets.Manager.getXml("map"), [bmp]);
 			
 			var hero:Takuto = getObjectByName("hero") as Takuto;
 			hero.setAttackSensor(getObjectByName("attackarea") as Sensor);
@@ -72,6 +69,27 @@ package
 			view.camera.allowZoom = true;
 			view.camera.setZoom(30);
 			
+			var lbl:Label = new Label();
+			lbl.textRendererFactory = function():ITextRenderer
+			{
+				var textRenderer:TextFieldTextRenderer = new TextFieldTextRenderer();
+				textRenderer.textFormat = new TextFormat( "Arial", 14, 0xffffff);
+				textRenderer.isHTML = true;
+				return textRenderer;
+			}
+			lbl.x = 60;
+			lbl.y = 10;
+			addChildAt(lbl, 1);
+			var v:Vector.<CitrusObject> = getObjectsByType(ZorgBaby)
+			var remainTxt:String = "Zorg Babies Remaining: ";
+			_zorgRemaining = v.length;
+			lbl.text = remainTxt + _zorgRemaining;
+			for each (var obj:ZorgBaby in v) {
+				obj.onDied.add(function():void { 
+					_zorgRemaining--; 
+					lbl.text = remainTxt + _zorgRemaining;
+				});
+			}
 		}
 		
 	}

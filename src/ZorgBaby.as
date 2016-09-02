@@ -17,6 +17,7 @@ package
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
 	import flash.utils.setTimeout;
+	import org.osflash.signals.Signal;
 
 	/**
 	 * ...
@@ -24,19 +25,8 @@ package
 	 */
 	public class ZorgBaby extends Enemy 
 	{
-		[Embed(source="/../assets/zorg-baby.xml", mimeType="application/octet-stream")]
-		private var _babyZorgConfig:Class;
-		
-		[Embed(source="/../assets/zorg-baby.png")]
-		private var _babyZorgPng:Class;
-		
-		[Embed(source="/../assets/explode.xml", mimeType="application/octet-stream")]
-		private var _explosionConfig:Class;
-		
-		[Embed(source="/../assets/explode.png")]
-		private var _explosionPng:Class;
-		
 		public var health:Number = 30;
+		public var onDied:Signal;
 		
 		private var _gravConst:Number = -15.6;
 		private var _defyGravity:Number = _gravConst;
@@ -47,11 +37,9 @@ package
 		{
 			super(name, params);
 			
-			var bitmap:Bitmap = new _babyZorgPng();
-			var texture:Texture = Texture.fromBitmap(bitmap);
-
-			var xml:XML = XML(new _babyZorgConfig());
-			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
+			onDied = new Signal();
+			
+			var sTextureAtlas:TextureAtlas = Assets.Manager.getTextureAtlas("zorg_baby");
 			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "die"], "walk", 15, false, "none");
 			
 			animseq.scale = 0.4;
@@ -103,15 +91,13 @@ package
 		{
 			if (_hurt) return;
 			
-			var bitmap:Bitmap = new _explosionPng();
-			var texture:Texture = Texture.fromBitmap(bitmap);
-			var xml:XML = XML(new _explosionConfig());
-			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
+			var sTextureAtlas:TextureAtlas = Assets.Manager.getTextureAtlas("explode");
 			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["explosion"], "explosion", 15, false, "none");
 			view = animseq;
 			
 			_animation = "explosion";
 			_ce.sound.playSound("Kaboom");
+			onDied.dispatch();
 			
 			super.hurt()
 		}

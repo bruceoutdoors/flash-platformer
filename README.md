@@ -3,6 +3,8 @@ Platformer Using Citrus Engine
 
 This platformer is called "Yun Yun Blades". It is for an assignment for my course subject [TGD3151 Game Design Fundamentals](http://fci.mmu.edu.my/subject/subjectdetails.php?sid=TGD3151).
 
+NOTE: Game has VERY poor memory management. Restart enough times and it will run out of memory. Not sure if it's my lack of skill, or flash just have bad memory management.
+
 You can fork and do whatever you please, as long as you credit me and the artists which I borrowed their work from.
 
 ## Assets

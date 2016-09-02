@@ -35,7 +35,11 @@ package
 		
 		override public function handleStarlingReady():void
 		{
-			state = new ALevel();
+			Assets.load();
+			Assets.Manager.verbose = true;
+			Assets.onLoadComplete.add(function():void {
+				state = new ALevel();
+			});
 		}
 	}
 	

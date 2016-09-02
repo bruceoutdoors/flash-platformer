@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
 <!-- $TexturePacker:SmartUpdate:1f3c6d665758365e4fdae22eb86438f1:2117d99b69118a5f65969002d477bc26:be87e782df747ac390bd63e9f89bb1eb$ -->
-<TextureAtlas imagePath="zorg-baby.png" width="672" height="46">
+<TextureAtlas imagePath="zorg_baby.png" width="672" height="46">
     <SubTexture name="die (1)" x="0" y="0" width="48" height="46"/>
     <SubTexture name="die (2)" x="48" y="0" width="48" height="46"/>
     <SubTexture name="die (3)" x="0" y="0" width="48" height="46"/>

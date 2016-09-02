@@ -29,12 +29,6 @@ package
 		public var attackDuration:Number = 300;
 		public var damage:Number = 10;
 		
-		[Embed(source="/../assets/takuto-spritesheet.xml", mimeType="application/octet-stream")]
-		private var _heroConfig:Class;
-		
-		[Embed(source="/../assets/takuto-spritesheet.png")]
-		private var _heroPng:Class;
-		
 		public function Takuto(name:String, params:Object=null) 
 		{
 			super(name, params);
@@ -46,11 +40,7 @@ package
 			hurtVelocityY = 5;
 			canDuck = false;
 			
-			var bitmap:Bitmap = new _heroPng();
-			var texture:Texture = Texture.fromBitmap(bitmap);
-
-			var xml:XML = XML(new _heroConfig());
-			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
+			var sTextureAtlas:TextureAtlas = Assets.Manager.getTextureAtlas("takuto_spritesheet");
 			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, 
 				["walk", "duck", "idle", "jump", "hurt", "attack", "die"], 
 				"idle", 15, false, "none");
