@@ -2,6 +2,7 @@ package
 {
 	import TileMapReader;
 	import citrus.core.starling.StarlingState;
+	import starling.display.Image;
 	import Takuto;
 	import citrus.objects.platformer.box2d.Platform;
 	import citrus.physics.box2d.Box2D;
@@ -12,6 +13,8 @@ package
 	import starling.textures.TextureAtlas;
 	import citrus.objects.platformer.box2d.Sensor;
 	import flash.text.TextField;
+	import citrus.objects.CitrusSprite;
+	import starling.textures.TextureSmoothing;
 	
 	/**
 	 * ...
@@ -24,6 +27,9 @@ package
 		
 		[Embed(source="/../assets/forest.png")]
 		private const _ImgTiles:Class;
+		
+		[Embed(source="/../assets/Cemetary_FBG.png")]
+		private const _ParallaxBackground:Class;
 		
 		public function ALevel() 
 		{
@@ -45,6 +51,16 @@ package
 			// we must add the image name so we know which image is chosen.
 			bmp.name = "forest.png";
 			bmp.smoothing = false;
+			
+			var bg:Bitmap = new _ParallaxBackground();
+			// we must add the image name so we know which image is chosen.
+			bg.name = "Cemetary_FBG.png";
+			bg.smoothing = false;
+			var bgImg:Image = new Image(Texture.fromBitmap(bg));
+			bgImg.smoothing = TextureSmoothing.NONE;
+			var background:CitrusSprite = new CitrusSprite("back", {x:-30, y:0, parallaxX:0.1, parallaxY:0.1, view: bgImg });
+			add(background);
+			//addChild(bgImg);
 
 			TileMapReader.Read(XML(new _Map()), [bmp]);
 			
