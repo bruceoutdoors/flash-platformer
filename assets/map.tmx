@@ -198,7 +198,7 @@
   <object id="66" name="Enemy Bound" type="EnemyBound" x="1453.25" y="3.5" width="7.5" height="122.5"/>
   <object id="67" name="Enemy Bound" type="EnemyBound" x="206.75" y="113" width="7.5" height="190"/>
   <object id="68" name="Enemy Bound" type="EnemyBound" x="449.25" y="123" width="7.5" height="211"/>
-  <object id="69" name="attackarea" type="citrus.objects.platformer.box2d.Sensor" x="40.5757" y="278.803" width="33.9394" height="29.8485">
+  <object id="69" name="attackarea" type="citrus.objects.platformer.box2d.Sensor" x="40.5757" y="278.803" width="32.3031" height="39.4849">
    <properties>
     <property name="jumpHeight" value="12"/>
    </properties>

@@ -11,6 +11,7 @@ package
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
 	import citrus.objects.platformer.box2d.Sensor;
+	import flash.text.TextField;
 	
 	/**
 	 * ...

@@ -30,6 +30,12 @@ package
 		[Embed(source="/../assets/zorg-baby.png")]
 		private var _babyZorgPng:Class;
 		
+		[Embed(source="/../assets/explode.xml", mimeType="application/octet-stream")]
+		private var _explosionConfig:Class;
+		
+		[Embed(source="/../assets/explode.png")]
+		private var _explosionPng:Class;
+		
 		public var health:Number = 30;
 		
 		private var _gravConst:Number = -15.6;
@@ -68,7 +74,6 @@ package
 		{
 			if (!_canTakeDamage) return;
 			
-			trace("ARGH! YOU DAMAGED ME!");
 			_canTakeDamage = false;
 			health -= damage;
 			var hurtVelocity:b2Vec2 = _body.GetLinearVelocity();
@@ -77,7 +82,6 @@ package
 			_body.ApplyForce(hurtVelocity, _body.GetPosition());
 			
 			if (health <= 0) {
-				trace("ENEMY DOWN!");
 				hurt();
 			}
 			
@@ -94,9 +98,27 @@ package
 			//_bodyDef.type = b2Body.b2_staticBody;
 		}
 		
+		override public function hurt():void
+		{
+			var bitmap:Bitmap = new _explosionPng();
+			var texture:Texture = Texture.fromBitmap(bitmap);
+			var xml:XML = XML(new _explosionConfig());
+			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
+			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["explosion"], "explosion", 15, false, "none");
+			view = animseq;
+			
+			_animation = "explosion";
+			
+			super.hurt()
+		}
+		
 		override public function update(timeDelta:Number):void
 		{
 			super.update(timeDelta);
+			
+			if (this.y > 1500 || this.y < 0) {
+				hurt();
+			}
 
 			var ant_gravity:b2Vec2 = new b2Vec2(0.0, _defyGravity*_body.GetMass());
 			_body.ApplyForce(ant_gravity, _body.GetWorldCenter());
@@ -121,7 +143,9 @@ package
 		
 		protected override function updateAnimation():void
 		{
-			_animation = _hurt || !_canTakeDamage ? "die" : "walk";
+			if (_hurt) _animation = "explosion";
+			else if (!_canTakeDamage) _animation = "die";
+			else _animation = "walk";
 		}
 		
 		

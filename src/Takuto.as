@@ -24,6 +24,7 @@ package
 		private var _attackTimeoutID:uint;
 		private var _dying:Boolean = false;
 		private var _attackSensor:Sensor;
+		private var _restarting:Boolean = false;
 		
 		public var attackDuration:Number = 300;
 		public var damage:Number = 10;
@@ -43,6 +44,7 @@ package
 			acceleration = 0.7;
 			hurtVelocityX = 5;
 			hurtVelocityY = 5;
+			canDuck = false;
 			
 			var bitmap:Bitmap = new _heroPng();
 			var texture:Texture = Texture.fromBitmap(bitmap);
@@ -87,7 +89,7 @@ package
 			}, 350);
 			
 			setTimeout(function():void {
-				_ce.state = new RestartScreen(ALevel);
+				restartLevel();
 			}, 1800);
 		}
 		
@@ -105,7 +107,7 @@ package
 			//var ant_gravity:b2Vec2 = new b2Vec2(0.0, -8.0*_body.GetMass());
 			//_body.ApplyForce(ant_gravity, _body.GetWorldCenter());
 			if (this.y > 1500) {
-				_ce.state = new RestartScreen(ALevel);
+				restartLevel();
 			}
 			
 			_attackSensor.x = _inverted ? x - 20 : x + 20;
@@ -119,7 +121,7 @@ package
 				
 				if (!_attack && _ce.input.justDid("attack", inputChannel)) {
 					_attack = true;
-					setTimeout(triggerAttack, 100);
+					setTimeout(triggerAttack, 50);
 					_attackTimeoutID = setTimeout(endAttackState, attackDuration);
 				}
 				
@@ -186,7 +188,7 @@ package
 			_attackSensor.beginContactCallEnabled = true;
 			setTimeout(function():void { 
 				_attackSensor.beginContactCallEnabled = false; 
-			}, 500);
+			}, 250);
 		}
 		
 		override protected function updateAnimation():void {
@@ -195,11 +197,12 @@ package
 			
 			var walkingSpeed:Number = getWalkingSpeed();
 			
-			if (_dying)
+			if (_dying) {
 				_animation = "die";
-			else if (_hurt)
+			} else if (_hurt) {
 				_animation = "hurt";	
-			else if (!_onGround) {
+				view.pivotY  = -6; // death animaton is not offset properly.
+			} else if (!_onGround) {
 				
 				_animation = "jump";
 				
@@ -237,6 +240,13 @@ package
 		private function endAttackState():void 
 		{
 			_attack = false;
+		}
+		
+		private function restartLevel():void 
+		{
+			if (_restarting) return;
+			_restarting = true;
+			_ce.state = new RestartScreen(ALevel);
 		}
 		
 		public override function destroy():void 
