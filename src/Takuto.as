@@ -18,6 +18,7 @@ package
 	{
 		private var _attack:Boolean = false;
 		private var _attackTimeoutID:uint;
+		private var _dying:Boolean = false;
 		public var attackDuration:Number = 300;
 		
 		[Embed(source="/../assets/takuto-spritesheet.xml", mimeType="application/octet-stream")]
@@ -32,19 +33,42 @@ package
 			jumpHeight = 4.8;
 			maxVelocity = 1.5;
 			acceleration = 0.7;
+			hurtVelocityX = 5;
+			hurtVelocityY = 5;
 			
 			var bitmap:Bitmap = new _heroPng();
 			var texture:Texture = Texture.fromBitmap(bitmap);
 
 			var xml:XML = XML(new _heroConfig());
 			var sTextureAtlas:TextureAtlas = new TextureAtlas(texture, xml);
-			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, ["walk", "duck", "idle", "jump", "hurt", "attack"], "idle", 15, false, "none");
+			var animseq:AnimationSequence = new AnimationSequence(sTextureAtlas, 
+				["walk", "duck", "idle", "jump", "hurt", "attack", "die"], 
+				"idle", 15, false, "none");
 			
 			animseq.scale = 0.6;
 			animseq.pivotY  = 8;
 			
 			view = animseq;
+			
+			onTakeDamage.add(takuto_onTakeDamage);
 		}
+		
+		private function takuto_onTakeDamage():void
+		{
+			if (_dying) return; // so you don't die twice
+
+			controlsEnabled = false;
+			setTimeout(function():void {
+				_dying = true;
+			}, 350);
+			
+			setTimeout(function():void {
+				_ce.state = new RestartScreen(ALevel);
+			}, 1800);
+		}
+		
+		// player dies in one hit, so we don't need this.
+		override protected function endHurtState():void {}
 		
 		override public function update(timeDelta:Number):void
 		{
@@ -133,9 +157,10 @@ package
 			
 			var walkingSpeed:Number = getWalkingSpeed();
 			
-			if (_hurt)
-				_animation = "hurt";
-				
+			if (_dying)
+				_animation = "die";
+			else if (_hurt)
+				_animation = "hurt";	
 			else if (!_onGround) {
 				
 				_animation = "jump";
