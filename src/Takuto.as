@@ -61,6 +61,7 @@ package
 			view = animseq;
 			
 			onTakeDamage.add(takuto_onTakeDamage);
+			onAnimationChange.add(takuto_onAnimationChange);
 		}
 		
 		public function setAttackSensor(s:Sensor):void 
@@ -75,6 +76,7 @@ package
 			var enemy:ZorgBaby = Box2DUtils.CollisionGetOther(_attackSensor, contact) as ZorgBaby;
 			if (enemy is ZorgBaby) {
 				trace("taste some blade mothafucka!");
+				_ce.sound.playSound("SwordClash");
 				enemy.takeDamage(damage, _inverted);
 			}
 		}
@@ -82,6 +84,8 @@ package
 		private function takuto_onTakeDamage():void
 		{
 			if (_dying) return; // so you don't die twice
+			
+			_ce.sound.playSound("HeroDie");
 
 			controlsEnabled = false;
 			setTimeout(function():void {
@@ -121,6 +125,7 @@ package
 				
 				if (!_attack && _ce.input.justDid("attack", inputChannel)) {
 					_attack = true;
+					_ce.sound.playSound("SwordSwoosh");
 					setTimeout(triggerAttack, 50);
 					_attackTimeoutID = setTimeout(endAttackState, attackDuration);
 				}
@@ -202,8 +207,7 @@ package
 			} else if (_hurt) {
 				_animation = "hurt";	
 				view.pivotY  = -6; // death animaton is not offset properly.
-			} else if (!_onGround) {
-				
+			} else if (!_onGround) {	
 				_animation = "jump";
 				
 				if (walkingSpeed < -acceleration)
@@ -235,6 +239,21 @@ package
 			
 			if (prevAnimation != _animation)
 				onAnimationChange.dispatch();
+		}
+		
+		private function takuto_onAnimationChange():void
+		{
+			if (_animation == "walk") {
+				_ce.sound.playSound("Walk");
+			} else {
+				_ce.sound.stopSound("Walk");
+			}
+			
+			if (_animation == "jump") {
+				_ce.sound.playSound("Jump");
+			} else {
+				_ce.sound.stopSound("Jump");
+			}
 		}
 		
 		private function endAttackState():void 

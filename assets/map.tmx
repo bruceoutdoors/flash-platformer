@@ -171,7 +171,7 @@
   </object>
   <object id="25" type="citrus.objects.platformer.box2d.Platform" x="1360" y="304" width="16" height="67"/>
   <object id="26" type="citrus.objects.platformer.box2d.Platform" x="1440" y="336" width="159.833" height="22"/>
-  <object id="28" name="hero" type="Takuto" x="33.8333" y="289" width="12.6667" height="29.6667">
+  <object id="28" name="hero" type="Takuto" x="18.3333" y="233.5" width="12.6667" height="29.6667">
    <properties>
     <property name="jumpHeight" value="12"/>
    </properties>
@@ -198,7 +198,7 @@
   <object id="66" name="Enemy Bound" type="EnemyBound" x="1453.25" y="3.5" width="7.5" height="122.5"/>
   <object id="67" name="Enemy Bound" type="EnemyBound" x="206.75" y="113" width="7.5" height="190"/>
   <object id="68" name="Enemy Bound" type="EnemyBound" x="449.25" y="123" width="7.5" height="211"/>
-  <object id="69" name="attackarea" type="citrus.objects.platformer.box2d.Sensor" x="40.5757" y="278.803" width="32.3031" height="39.4849">
+  <object id="69" name="attackarea" type="citrus.objects.platformer.box2d.Sensor" x="25.0757" y="223.303" width="32.3031" height="39.4849">
    <properties>
     <property name="jumpHeight" value="12"/>
    </properties>

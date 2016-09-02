@@ -74,6 +74,7 @@ package
 		{
 			if (!_canTakeDamage) return;
 			
+			_ce.sound.playSound("EnemyHurt");
 			_canTakeDamage = false;
 			health -= damage;
 			var hurtVelocity:b2Vec2 = _body.GetLinearVelocity();
@@ -100,6 +101,8 @@ package
 		
 		override public function hurt():void
 		{
+			if (_hurt) return;
+			
 			var bitmap:Bitmap = new _explosionPng();
 			var texture:Texture = Texture.fromBitmap(bitmap);
 			var xml:XML = XML(new _explosionConfig());
@@ -108,6 +111,7 @@ package
 			view = animseq;
 			
 			_animation = "explosion";
+			_ce.sound.playSound("Kaboom");
 			
 			super.hurt()
 		}
