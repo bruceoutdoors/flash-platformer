@@ -3,12 +3,16 @@ package
 	import Takuto;
 	import Box2D.Common.Math.b2Vec2;
 	import citrus.objects.platformer.box2d.Hero;
+	import citrus.objects.platformer.box2d.Sensor;
 	import citrus.view.starlingview.AnimationSequence;
 	import flash.display.Bitmap;
 	import flash.utils.clearTimeout;
 	import flash.utils.setTimeout;
 	import starling.textures.Texture;
 	import starling.textures.TextureAtlas;
+	import Box2D.Dynamics.Contacts.b2Contact;
+	import citrus.physics.box2d.Box2DUtils;
+	import citrus.objects.platformer.box2d.Enemy;
 	
 	/**
 	 * ...
@@ -19,7 +23,10 @@ package
 		private var _attack:Boolean = false;
 		private var _attackTimeoutID:uint;
 		private var _dying:Boolean = false;
+		private var _attackSensor:Sensor;
+		
 		public var attackDuration:Number = 300;
+		public var damage:Number = 10;
 		
 		[Embed(source="/../assets/takuto-spritesheet.xml", mimeType="application/octet-stream")]
 		private var _heroConfig:Class;
@@ -30,6 +37,7 @@ package
 		public function Takuto(name:String, params:Object=null) 
 		{
 			super(name, params);
+			
 			jumpHeight = 4.8;
 			maxVelocity = 1.5;
 			acceleration = 0.7;
@@ -51,6 +59,22 @@ package
 			view = animseq;
 			
 			onTakeDamage.add(takuto_onTakeDamage);
+		}
+		
+		public function setAttackSensor(s:Sensor):void 
+		{
+			_attackSensor = s;
+			_attackSensor.onBeginContact.add(Takuto_onAttackSensorBeginContact);
+			_attackSensor.beginContactCallEnabled = false;
+		}
+		
+		private function Takuto_onAttackSensorBeginContact(contact:b2Contact):void
+		{
+			var enemy:ZorgBaby = Box2DUtils.CollisionGetOther(_attackSensor, contact) as ZorgBaby;
+			if (enemy is ZorgBaby) {
+				trace("taste some blade mothafucka!");
+				enemy.takeDamage(damage, _inverted);
+			}
 		}
 		
 		private function takuto_onTakeDamage():void
@@ -84,6 +108,9 @@ package
 				_ce.state = new RestartScreen(ALevel);
 			}
 			
+			_attackSensor.x = _inverted ? x - 20 : x + 20;
+			_attackSensor.y = y - 5;
+			
 			if (controlsEnabled)
 			{
 				var moveKeyPressed:Boolean = false;
@@ -92,6 +119,7 @@ package
 				
 				if (!_attack && _ce.input.justDid("attack", inputChannel)) {
 					_attack = true;
+					setTimeout(triggerAttack, 100);
 					_attackTimeoutID = setTimeout(endAttackState, attackDuration);
 				}
 				
@@ -149,6 +177,16 @@ package
 			}
 			
 			updateAnimation();
+		}
+		
+		private function triggerAttack():void 
+		{
+			if (_attackSensor.beginContactCallEnabled) return;
+			
+			_attackSensor.beginContactCallEnabled = true;
+			setTimeout(function():void { 
+				_attackSensor.beginContactCallEnabled = false; 
+			}, 500);
 		}
 		
 		override protected function updateAnimation():void {

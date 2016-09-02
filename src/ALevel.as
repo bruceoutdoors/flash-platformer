@@ -29,7 +29,7 @@ package
 			super();
 			
 			// Useful for not forgetting to import object from the Level Editor
-			var objects:Array = [Takuto, Platform, ZorgBaby, EnemyBound];
+			var objects:Array = [Takuto, Platform, ZorgBaby, EnemyBound, Sensor];
 		}
 		
 		override public function initialize():void {
@@ -37,7 +37,7 @@ package
 			super.initialize();
 			
 			var box2D:Box2D = new Box2D("box2D");
-			box2D.visible = true;
+			//box2D.visible = true;
 			add(box2D);
 			
 			var bmp:Bitmap = new _ImgTiles();
@@ -48,6 +48,7 @@ package
 			TileMapReader.Read(XML(new _Map()), [bmp]);
 			
 			var hero:Takuto = getObjectByName("hero") as Takuto;
+			hero.setAttackSensor(getObjectByName("attackarea") as Sensor);
 
 			view.camera.setUp(hero, new Rectangle(0, 0, 1600, 400));
 

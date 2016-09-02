@@ -16,6 +16,7 @@ package
 	import Box2D.Dynamics.b2Body;
 	import flash.utils.Timer;
 	import flash.events.TimerEvent;
+	import flash.utils.setTimeout;
 
 	/**
 	 * ...
@@ -29,9 +30,12 @@ package
 		[Embed(source="/../assets/zorg-baby.png")]
 		private var _babyZorgPng:Class;
 		
+		public var health:Number = 30;
+		
 		private var _gravConst:Number = -15.6;
 		private var _defyGravity:Number = _gravConst;
-		private var _gravityTimer:Timer = new Timer(500);;
+		private var _gravityTimer:Timer = new Timer(500);
+		private var _canTakeDamage:Boolean = true;
 		
 		public function ZorgBaby(name:String, params:Object=null) 
 		{
@@ -46,7 +50,7 @@ package
 			
 			animseq.scale = 0.4;
 			animseq.pivotY  = 8;
-			speed = 0.8;
+			speed = 0.7;
 			
 			view = animseq;
 			
@@ -58,6 +62,26 @@ package
 					_defyGravity = _gravConst;
 				}
 			});
+		}
+		
+		public function takeDamage(damage:Number, isxdirection:Boolean):void
+		{
+			if (!_canTakeDamage) return;
+			
+			trace("ARGH! YOU DAMAGED ME!");
+			_canTakeDamage = false;
+			health -= damage;
+			var hurtVelocity:b2Vec2 = _body.GetLinearVelocity();
+			hurtVelocity.x += isxdirection ? -50 : 50;
+			//hurtVelocity.y -= 0.5;
+			_body.ApplyForce(hurtVelocity, _body.GetPosition());
+			
+			if (health <= 0) {
+				trace("ENEMY DOWN!");
+				hurt();
+			}
+			
+			setTimeout(function():void { _canTakeDamage = true; }, 750);
 		}
 		
 		override protected function defineFixture():void {
@@ -89,8 +113,15 @@ package
 				velocity.x = _inverted ? -speed : speed;
 			} else
 				velocity.x = 0;
+				
+			if (!_canTakeDamage) velocity.x = 0;
 			
 			updateAnimation();
+		}
+		
+		protected override function updateAnimation():void
+		{
+			_animation = _hurt || !_canTakeDamage ? "die" : "walk";
 		}
 		
 		
@@ -98,8 +129,9 @@ package
 			
 			var collider:IBox2DPhysicsObject = Box2DUtils.CollisionGetOther(this, contact);
 			
-			if (collider is _enemyClass && collider.body.GetLinearVelocity().y > enemyKillVelocity)
-				hurt();
+			if (collider is _enemyClass && collider.body.GetLinearVelocity().y > enemyKillVelocity) {
+				//hurt();
+			}
 				
 			if (_body.GetLinearVelocity().x < 0 && (contact.GetFixtureA() == _rightSensorFixture || contact.GetFixtureB() == _rightSensorFixture))
 				return;
