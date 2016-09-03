@@ -1,11 +1,19 @@
 Platformer Using Citrus Engine
 ====================================
 
+[Play the live version of the game here!](https://bruceoutdoors.github.io/flash-platformer/)
+
 This platformer is called "Yun Yun Blades". It is for an assignment for my course subject [TGD3151 Game Design Fundamentals](http://fci.mmu.edu.my/subject/subjectdetails.php?sid=TGD3151).
 
 NOTE: Game has VERY poor memory management. Restart enough times and it will run out of memory. Not sure if it's my lack of skill, or flash just have bad memory management.
 
 You can fork and do whatever you please, as long as you credit me and the artists which I borrowed their work from.
+
+## Setup
+
+1. Download and install the free ActionScript IDE [FlashDevelop](http://www.flashdevelop.org/).
+2. At first run, FlashDevelop will ask you what software you want to install into FlashDevelop. Select AS3 (green link at the bottom) and install.
+3. Now you will be able to build and run the project.
 
 ## Assets
 
