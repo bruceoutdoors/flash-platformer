@@ -4,6 +4,8 @@ package
 	 * ...
 	 * @author Lee Zhen Yong
 	 */
+	import States.ALevel;
+	import States.LoadingScreen;
 	import citrus.core.starling.StarlingCitrusEngine;
 	import citrus.core.CitrusEngine;
 	import citrus.input.controllers.Keyboard;
@@ -35,6 +37,14 @@ package
 		
 		override public function handleStarlingReady():void
 		{
+			// setup loading screen
+			var loading:LoadingScreen = new LoadingScreen();
+			state = loading;
+			Assets.onLoadProgress.add(function(ratio:Number):void{
+				loading.updateProgress(ratio);
+			});
+			
+			// load assets, and once we're done the game starts!
 			Assets.load();
 			Assets.Manager.verbose = true;
 			Assets.onLoadComplete.add(function():void {

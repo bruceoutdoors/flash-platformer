@@ -1,4 +1,4 @@
-package 
+package States 
 {
 	import TileMapReader;
 	import citrus.core.starling.StarlingState;
@@ -58,7 +58,6 @@ package
 			var bmp:Bitmap = new forest();
 			//// we must add the image name so we know which image is chosen.
 			bmp.name = "forest.png";
-			bmp.smoothing = false;
 			TileMapReader.Read(Assets.Manager.getXml("map"), [bmp]);
 			
 			var hero:Takuto = getObjectByName("hero") as Takuto;

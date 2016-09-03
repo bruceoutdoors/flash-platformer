@@ -2,6 +2,7 @@ package
 {
 	import Takuto;
 	import Box2D.Common.Math.b2Vec2;
+	import States.ALevel;
 	import citrus.objects.platformer.box2d.Hero;
 	import citrus.objects.platformer.box2d.Sensor;
 	import citrus.view.starlingview.AnimationSequence;
@@ -25,6 +26,7 @@ package
 		private var _dying:Boolean = false;
 		private var _attackSensor:Sensor;
 		private var _restarting:Boolean = false;
+		private var _attackSensorEnabled:Boolean = false;
 		
 		public var attackDuration:Number = 300;
 		public var damage:Number = 10;
@@ -58,11 +60,12 @@ package
 		{
 			_attackSensor = s;
 			_attackSensor.onBeginContact.add(Takuto_onAttackSensorBeginContact);
-			_attackSensor.beginContactCallEnabled = false;
 		}
 		
 		private function Takuto_onAttackSensorBeginContact(contact:b2Contact):void
 		{
+			if (!_attackSensorEnabled) return;
+			
 			var enemy:ZorgBaby = Box2DUtils.CollisionGetOther(_attackSensor, contact) as ZorgBaby;
 			if (enemy is ZorgBaby) {
 				trace("taste some blade mothafucka!");
@@ -116,7 +119,7 @@ package
 				if (!_attack && _ce.input.justDid("attack", inputChannel)) {
 					_attack = true;
 					_ce.sound.playSound("SwordSwoosh");
-					setTimeout(triggerAttack, 50);
+					triggerAttack();
 					_attackTimeoutID = setTimeout(endAttackState, attackDuration);
 				}
 				
@@ -178,12 +181,12 @@ package
 		
 		private function triggerAttack():void 
 		{
-			if (_attackSensor.beginContactCallEnabled) return;
+			if (_attackSensorEnabled) return;
 			
-			_attackSensor.beginContactCallEnabled = true;
+			_attackSensorEnabled = true;
 			setTimeout(function():void { 
-				_attackSensor.beginContactCallEnabled = false; 
-			}, 250);
+				_attackSensorEnabled = false; 
+			}, 200);
 		}
 		
 		override protected function updateAnimation():void {

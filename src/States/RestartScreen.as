@@ -1,4 +1,4 @@
-package
+package States
 {
 	import citrus.core.starling.StarlingState;
 	import flash.display.Loader;

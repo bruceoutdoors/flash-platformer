@@ -33,7 +33,8 @@ package
 		public static const Cemetary_FBG:Class;
 		
 		public static var Manager:AssetManager;
-		public static var onLoadComplete:Signal;
+		public static var onLoadComplete:Signal = new Signal();;
+		public static var onLoadProgress:Signal = new Signal(Number);
 		private static var _isLoadCalled:Boolean = false;
 		
 		public static function load():void
@@ -42,14 +43,14 @@ package
 			
 			_isLoadCalled = true;
 			
-			onLoadComplete = new Signal();
 			Manager = new AssetManager();
 			
 			Manager.enqueue(Assets);
 			
-			
 			Manager.loadQueue(function(ratio:Number):void
 			{
+				onLoadProgress.dispatch(ratio);
+				
 				// -> When the ratio equals '1', we are finished.
 				if (ratio == 1.0) onLoadComplete.dispatch();
 			});
