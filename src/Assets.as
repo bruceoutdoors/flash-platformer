@@ -32,6 +32,27 @@ package
 		[Embed(source="/../assets/Cemetary_FBG.png")]
 		public static const Cemetary_FBG:Class;
 		
+		[Embed(source="/../assets/sounds/enemy_explosion.mp3")]
+		public static const enemy_explosion:Class;
+		
+		[Embed(source="/../assets/sounds/enemy_hurt.mp3")]
+		public static const enemy_hurt:Class;
+		
+		[Embed(source="/../assets/sounds/jump.mp3")]
+		public static const jump:Class;
+		
+		[Embed(source="/../assets/sounds/man_die.mp3")]
+		public static const man_die:Class;
+		
+		[Embed(source="/../assets/sounds/sword_clash.mp3")]
+		public static const sword_clash:Class;
+		
+		[Embed(source="/../assets/sounds/sword_swoosh.mp3")]
+		public static const sword_swoosh:Class;
+		
+		[Embed(source="/../assets/sounds/walk.mp3")]
+		public static const walk:Class;
+		
 		public static var Manager:AssetManager;
 		public static var onLoadComplete:Signal = new Signal();;
 		public static var onLoadProgress:Signal = new Signal(Number);
