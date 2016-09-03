@@ -14,6 +14,7 @@ package
 	import Box2D.Dynamics.Contacts.b2Contact;
 	import citrus.physics.box2d.Box2DUtils;
 	import citrus.objects.platformer.box2d.Enemy;
+	import States.RestartScreen;
 	
 	/**
 	 * ...

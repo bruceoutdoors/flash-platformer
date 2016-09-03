@@ -11,7 +11,7 @@ package
 	import citrus.input.controllers.Keyboard;
 	import citrus.sounds.CitrusSoundGroup;
 
-	[SWF(frameRate="60", width="600", height="400")]
+	[SWF(frameRate="60", width="600", height="400", wmode="direct")]
 	public class Main extends StarlingCitrusEngine {
 
 		public function Main() {
@@ -20,15 +20,7 @@ package
 		override public function initialize():void
 		{
 			setUpStarling(true);
-			
-			sound.addSound("Kaboom", {sound:"sounds/enemy-explosion.mp3", volume:0.5, group:CitrusSoundGroup.SFX});
-			sound.addSound("HeroDie", {sound:"sounds/man-die.mp3", volume:0.6, group:CitrusSoundGroup.SFX});
-			sound.addSound("EnemyHurt", {sound:"sounds/enemy-hurt.mp3", group:CitrusSoundGroup.SFX});
-			sound.addSound("SwordSwoosh", {sound:"sounds/sword-swoosh.mp3", group:CitrusSoundGroup.SFX});
-			sound.addSound("SwordClash", {sound:"sounds/sword-clash.mp3", group:CitrusSoundGroup.SFX});
-			sound.addSound("Walk", { sound:"sounds/walk.mp3", loops: -1, volume:1, group:CitrusSoundGroup.SFX } );
-			sound.addSound("Jump", { sound:"sounds/jump.mp3", volume:1, group:CitrusSoundGroup.SFX } );
-			
+
 			var kb:Keyboard = CitrusEngine.getInstance().input.keyboard;
 			kb.removeActionFromKey("jump", Keyboard.SPACE);
 			kb.addKeyAction("jump", Keyboard.UP);
@@ -48,8 +40,20 @@ package
 			Assets.load();
 			Assets.Manager.verbose = true;
 			Assets.onLoadComplete.add(function():void {
+				setupSounds();
 				state = new ALevel();
 			});
+		}
+		
+		private function setupSounds():void 
+		{
+			sound.addSound("Kaboom", {sound:Assets.Manager.getSound("enemy_explosion"), volume:0.5, group:CitrusSoundGroup.SFX});
+			sound.addSound("HeroDie", {sound:Assets.Manager.getSound("man_die"), volume:0.6, group:CitrusSoundGroup.SFX});
+			sound.addSound("EnemyHurt", {sound:Assets.Manager.getSound("enemy_hurt"), group:CitrusSoundGroup.SFX});
+			sound.addSound("SwordSwoosh", {sound:Assets.Manager.getSound("sword_swoosh"), group:CitrusSoundGroup.SFX});
+			sound.addSound("SwordClash", {sound:Assets.Manager.getSound("sword_clash"), group:CitrusSoundGroup.SFX});
+			sound.addSound("Walk", { sound:Assets.Manager.getSound("walk"), loops: -1, volume:1, group:CitrusSoundGroup.SFX } );
+			sound.addSound("Jump", { sound:Assets.Manager.getSound("jump"), volume:1, group:CitrusSoundGroup.SFX } );
 		}
 	}
 	
