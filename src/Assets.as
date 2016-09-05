@@ -53,6 +53,9 @@ package
 		[Embed(source="/../assets/sounds/walk.mp3")]
 		public static const walk:Class;
 		
+		[Embed(source="/../assets/sounds/wintheme.mp3")]
+		public static const wintheme:Class;
+		
 		public static var Manager:AssetManager;
 		public static var onLoadComplete:Signal = new Signal();;
 		public static var onLoadProgress:Signal = new Signal(Number);

@@ -32,3 +32,4 @@ All sounds are taken from https://www.freesound.org/
 - Sword swoosh: [Sword Swipe5.wav](https://www.freesound.org/people/LukeSharples/sounds/209127/)
 - Sword clash: [Repair_metal.wav](https://www.freesound.org/people/zbig77/sounds/244985/)
 - Walk, Jump: *taken from citrus engine examples*
+- Winning Theme: *Warcraft 2 Human rescue sound. If Blizzard doesn't notice this then haha, I guess it's ok (:*

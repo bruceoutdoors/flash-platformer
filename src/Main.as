@@ -54,6 +54,7 @@ package
 			sound.addSound("SwordClash", {sound:Assets.Manager.getSound("sword_clash"), group:CitrusSoundGroup.SFX});
 			sound.addSound("Walk", { sound:Assets.Manager.getSound("walk"), loops: -1, volume:1, group:CitrusSoundGroup.SFX } );
 			sound.addSound("Jump", { sound:Assets.Manager.getSound("jump"), volume:1, group:CitrusSoundGroup.SFX } );
+			sound.addSound("wintheme", { sound:Assets.Manager.getSound("wintheme"), volume:1, group:CitrusSoundGroup.SFX } );
 		}
 	}
 	

@@ -22,6 +22,7 @@ package States
 	import feathers.controls.text.TextFieldTextRenderer
 	import flash.text.TextFormat;
 	import citrus.core.CitrusObject;
+	import flash.utils.setTimeout;
 		
 	/**
 	 * ...
@@ -87,8 +88,19 @@ package States
 				obj.onDied.add(function():void { 
 					_zorgRemaining--; 
 					lbl.text = remainTxt + _zorgRemaining;
+					if (_zorgRemaining == 0) {
+						setTimeout(function():void { 
+							winGame();
+						}, 1500);
+					}
 				});
 			}
+		}
+		
+		private function winGame():void
+		{
+			_ce.sound.playSound("wintheme");
+			_ce.state = new WinScreen(ALevel);
 		}
 		
 	}
