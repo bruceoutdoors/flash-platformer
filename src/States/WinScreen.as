@@ -14,17 +14,16 @@ package States
 	 * ...
 	 * @author Lee Zhen Yong
 	 */
-	public class RestartScreen extends SwfBaseScreen
+	public class WinScreen extends SwfBaseScreen
 	{
 		private var _restartBtn:SimpleButton;
 		private var _returnLvl:*;
 		
-		public function RestartScreen(returnLvl:*):void
+		public function WinScreen(returnLvl:*):void
 		{
-			super("restart-screen.swf");
+			super("win-screen.swf");
 			_returnLvl = returnLvl;
 		}
-		
 		
 		override public function destroy():void
 		{
@@ -46,8 +45,6 @@ package States
 			// We need to set input focus back in citrus:
 			Starling.current.nativeStage.focus = Starling.current.nativeStage;
 		}
-		
-		
 	}
 
 }
